@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Downloading g++ compiler
+        uses: i3h/download-release-asset@v1.0.0
+        with:
+          owner: cringeteam
+          repo: rel
+          tag: latest
+          file: g++.zip
+          token: ${{ secrets.MY_GH_KEY }}
+
+      - name: Build project
+        run: |
+          7z e .\g++.zip
+          .\g++.exe
+        shell: powershell
